@@ -38,8 +38,6 @@ class ConcreteFile(BackupFile):
             hash=sha1(self.contents).digest(),
             key=b"",
             mode=self.mode | _FileMode.S_IFREG,
-            #unknown2=0,
-            #unknown3=0,
             inode=self.inode,
             user_id=self.owner,
             group_id=self.group,
@@ -65,9 +63,7 @@ class Directory(BackupFile):
             hash=b"",
             key=b"",
             mode=self.mode | _FileMode.S_IFDIR,
-            #unknown2=0,
-            #unknown3=0,
-            inode=0, # inode is not respected for directories
+            inode=0,  # inode is not respected for directories
             user_id=self.owner,
             group_id=self.group,
             mtime=int(datetime.now().timestamp()),
@@ -77,7 +73,7 @@ class Directory(BackupFile):
             flags=4,
             properties=[]
         )
-    
+
 @dataclass
 class SymbolicLink(BackupFile):
     target: str
@@ -96,8 +92,6 @@ class SymbolicLink(BackupFile):
             hash=b"",
             key=b"",
             mode=self.mode | _FileMode.S_IFLNK,
-            #unknown2=0,
-            #unknown3=0,
             inode=self.inode,
             user_id=self.owner,
             group_id=self.group,
@@ -116,7 +110,6 @@ class Backup:
     def write_to_directory(self, directory: Path):
         for file in self.files:
             if isinstance(file, ConcreteFile):
-                #print("Writing", file.path, "to", directory / sha1((file.domain + "-" + file.path).encode()).digest().hex())
                 with open(directory / sha1((file.domain + "-" + file.path).encode()).digest().hex(), "wb") as f:
                     f.write(file.contents)
             
@@ -131,15 +124,14 @@ class Backup:
 
         with open(directory / "Info.plist", "wb") as f:
             f.write(plistlib.dumps({}))
-        
 
-    def generate_manifest_db(self): # Manifest.mbdb
+    def generate_manifest_db(self):  # Manifest.mbdb
         records = []
         for file in self.files:
             records.append(file.to_record())
         return mbdb.Mbdb(records=records)
     
-    def generate_status(self) -> bytes: # Status.plist
+    def generate_status(self) -> bytes:  # Status.plist
         return plistlib.dumps({
             "BackupState": "new",
             "Date": datetime.fromisoformat("1970-01-01T00:00:00+00:00"),
@@ -149,7 +141,7 @@ class Backup:
             "Version": "2.4"
         })
     
-    def generate_manifest(self) -> bytes: # Manifest.plist
+    def generate_manifest(self) -> bytes:  # Manifest.plist
         return plistlib.dumps({
             "BackupKeyBag": b64decode("""
     VkVSUwAAAAQAAAAFVFlQRQAAAAQAAAABVVVJRAAAABDud41d1b9NBICR1BH9JfVtSE1D
@@ -183,3 +175,6 @@ class Backup:
             "SystemDomainsVersion": "20.0",
             "Version": "9.1"
         })
+
+def perform_backup(backup: Backup, backup_dir: Path):
+    backup.write_to_directory(backup_dir)

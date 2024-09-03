@@ -1,5 +1,5 @@
-# TrollRestore
-TrollRestore is a TrollStore installer for iOS/iPadOS 15.0 - 16.7 RC (20H18) and 17.0. It will replace a system app of your choice with a TrollHelper binary, which you can then open and use to install TrollStore. TrollRestore makes use of backups in order to restore the binary to a system app container. 
+# TrollRestore Whit Gui!
+TrollRestore is a TrollStore installer for iOS/iPadOS 15.0 - 16.7 RC (20H18) and 17.0 (iOS 18.0 test). It will replace a system app of your choice with a TrollHelper binary, which you can then open and use to install TrollStore. TrollRestore makes use of backups in order to restore the binary to a system app container. 
 
 A guide for installing TrollStore using TrollRestore can be found [here](https://ios.cfw.guide/installing-trollstore-trollrestore).
 
@@ -41,3 +41,4 @@ If you run into any issues during the installation, you can get support on the [
 * [doronz88](https://github.com/doronz88) - pymobiledevice3
 * [opa334](https://github.com/opa334), [Alfie](https://github.com/alfiecg24) - TrollStore
 * [Aaronp613](https://x.com/aaronp613) - Minor improvements
+* [SeregonWar](https://github.com/seregonwar) - GUI and Custom Fork creator 

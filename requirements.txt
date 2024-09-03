@@ -1,4 +1,6 @@
 pymobiledevice3
+ttkbootstrap
+packaging
 bpylist2
 rich
 requests
